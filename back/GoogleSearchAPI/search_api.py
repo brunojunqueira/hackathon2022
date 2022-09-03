@@ -5,7 +5,6 @@ import os
 load_dotenv()
 api_key = os.getenv("SEARCH_API_KEY")
 
-
 def search(search_text):
     params = {
     "q": search_text,
