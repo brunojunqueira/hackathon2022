@@ -2,7 +2,8 @@ from PrismaAPI import prisma_service
 
 prisma = prisma_service.db
 
-def search(keys):
+def search(search_text):
+	keys = search_text.lower()
 	prisma.connect()
 	formated_keys = [{'keywords': {'has': keys}}]
 	splited_keys = keys.split(" ")
