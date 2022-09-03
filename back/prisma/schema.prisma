@@ -1,27 +1,27 @@
 // database
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:+Whales2022@localhost:5432/flasksql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider = "prisma-client-py"
+  provider  = "prisma-client-py"
   interface = "sync"
 }
 
-model Users{
-    id          Int     @id @default(autoincrement())
-    name        String
-    role        String
-    email       String
-    phone       String
-    keywords    String[]
+model Users {
+  id       Int      @id @default(autoincrement())
+  name     String
+  role     String
+  email    String
+  phone    String
+  keywords String[]
 }
 
-model Searchs{
-    id          Int     @id @default(autoincrement())
-    title       String 
-    snippet     String
-    link        String
-    keywords    String[]
+model Searchs {
+  id       Int      @id @default(autoincrement())
+  title    String
+  snippet  String
+  link     String
+  keywords String[]
 }

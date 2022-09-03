@@ -1,6 +1,7 @@
 import os
-from flask import request, Response
-import flask
+from flask import Flask, request, Response
+from flask_cors import CORS
+
 from dotenv import load_dotenv
 
 from GoogleSearchAPI import search_api
@@ -11,14 +12,18 @@ load_dotenv()
 
 secret_key = os.getenv('DB_SECRET_KEY')
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
+CORS(app)
 app.config["DEBUG"] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 @app.get('/v1/googlesearch')
 def googlesearch_get():
     query_parameters = request.args
     search_text = query_parameters.get('search')
-    if len(search_text) == 0:
+    print(search_text)
+    if len(search_text) == 0 or search_text == None:
         return Response("BAD_REQUEST: Check Information And Try Again", status=400, mimetype='text/plain')
     return search_api.search(search_text)
 
