@@ -6,6 +6,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-py"
+  interface = "sync"
 }
 
 model Users{
@@ -14,7 +15,7 @@ model Users{
     role        String
     email       String
     phone       String
-    keywords    String []
+    keywords    String[]
 }
 
 model Searchs{
@@ -22,5 +23,5 @@ model Searchs{
     title       String 
     snippet     String
     link        String
-    keywords    String []
+    keywords    String[]
 }

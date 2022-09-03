@@ -4,13 +4,12 @@ import flask
 from dotenv import load_dotenv
 
 from GoogleSearchAPI import search_api
-from prisma import prisma_service
+from InternSearchAPI import intern_api
+from UserSearchAPI import user_api
 
 load_dotenv()
 
 secret_key = os.getenv('DB_SECRET_KEY')
-
-prisma_service.init()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -25,12 +24,22 @@ def googlesearch_get():
 
 @app.post('/v1/googlesearch')
 def googlesearch_post():
-    return "Success"
+    search_object = request.get_json()
+    search_api.recycle(search_object)
+    return Response("OK", status=200, mimetype='text/plain')
 
 @app.route('/v1/internsearch', methods=['GET'])
 def internsearch():
     query_parameters = request.args
     search_text = query_parameters.get('search')
-    return search_api.search(search_text)
+    result = intern_api.search(search_text)
+    return result
+
+@app.route('/v1/usersearch', methods=['GET'])
+def usersearch():
+    query_parameters = request.args
+    search_text = query_parameters.get('search')
+    result = user_api.search(search_text)
+    return result
 
 app.run()
