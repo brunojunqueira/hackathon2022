@@ -1,13 +1,14 @@
-import { Flex, Input, InputProps } from "@chakra-ui/react";
+import { Flex, Input, InputProps, Spinner } from "@chakra-ui/react";
 import { Mic, Search } from "react-feather";
 import { IconButton } from "../IconButton";
 
 interface SearchInputProps extends InputProps {
     onClickSearchButton: () => void;
     onClickMicrophoneButton: () => void;
+    isSearchLoading: boolean;
 }
 
-export function SearchInput({ onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
+export function SearchInput({ isSearchLoading, onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
     return (
         <Flex
             alignItems="center"
@@ -20,6 +21,12 @@ export function SearchInput({ onClickSearchButton, onClickMicrophoneButton, ...r
             width="100%"
             maxWidth={800}
         >
+            {isSearchLoading && (
+                <Flex>
+                    <Spinner color='app-brand-yellow' />
+                </Flex>
+            )}
+
             <Input
                 border="none"
                 outline="none"
@@ -33,6 +40,8 @@ export function SearchInput({ onClickSearchButton, onClickMicrophoneButton, ...r
                 }}
                 {...rest}
             />
+
+
             <Flex columnGap={3} color="app-brand-yellow">
                 <IconButton icon={<Search />} onClick={onClickSearchButton} />
                 <IconButton icon={<Mic />} onClick={onClickMicrophoneButton} />
