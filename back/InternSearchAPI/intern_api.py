@@ -1,24 +1,32 @@
 from PrismaAPI import prisma_service
-#from back.GoogleSearchAPI.search_api import search
 
 prisma = prisma_service.db
 
 def search(keys):
 	prisma.connect()
-	formated_keys = []
+	formated_keys = [{'keywords': {'has': keys}}]
 	splited_keys = keys.split(" ")
 
 	for key in splited_keys:
-		formated_keys.append({'keywords': {'contains': key}})
+		formated_keys.append({'keywords': {'has': key}})
 	
-
-	search_result = prisma.searchs.find_many(
+	search_results = prisma.searchs.find_many(
 		where={ 
-				'OR': formated_keys
+			'OR': formated_keys
 		}
 	)
+
+	results = []
+	for result in search_results:
+		results.append({
+			'title': result.title,
+			'snippet': result.snippet,
+			'link': result.link,
+			'keywords': result.keywords
+		})
+
 	prisma.disconnect()
-	return search_result
+	return results
 
 
 def teste():

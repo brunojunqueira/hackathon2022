@@ -1,7 +1,7 @@
 // database
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:+Whales2022@localhost:5432/flasksql"
 }
 
 generator client {
@@ -10,12 +10,13 @@ generator client {
 }
 
 model Users {
-  id       Int      @id @default(autoincrement())
-  name     String
-  role     String
-  email    String
-  phone    String
-  keywords String[]
+  id         Int      @id @default(autoincrement())
+  avatar_url String
+  name       String
+  role       String
+  email      String
+  phone      String
+  keywords   String[]
 }
 
 model Searchs {
