@@ -1,11 +1,10 @@
 from PrismaAPI import prisma_service
-from flask import url_for
 
 prisma = prisma_service.db
 
 def search(keys):
 	prisma.connect()
-	formated_keys = []
+	formated_keys = [{'keywords': {'has': keys}}]
 	splited_keys = keys.split(" ")
 	
 	for key in splited_keys:
@@ -24,8 +23,7 @@ def search(keys):
 			'name': result.name,
 			'role': result.role,
 			'email': result.email,
-			"phone": result.phone,
-			'keywords': result.keywords
+			"phone": result.phone
 		})
 	prisma.disconnect()
 	return results

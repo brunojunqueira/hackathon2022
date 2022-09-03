@@ -46,7 +46,11 @@ def internsearch():
 def usersearch():
     query_parameters = request.args
     search_text = query_parameters.get('search')
+    if len(search_text) == 0 or search_text == None:
+        return Response("BAD_REQUEST: Check Information And Try Again", status=400, mimetype='text/plain')
     result = user_api.search(search_text)
+    if result == None or len(result) == 0:
+        return Response("NOT_FOUND: Nada encontrado no nosso sistema", status=404, mimetype='text/plain')
     return result
 
 @app.route('/', defaults={'req_path': ''})
