@@ -5,23 +5,24 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-py"
+  provider  = "prisma-client-py"
   interface = "sync"
 }
 
-model Users{
-    id          Int     @id @default(autoincrement())
-    name        String
-    role        String
-    email       String
-    phone       String
-    keywords    String[]
+model Users {
+  id         Int      @id @default(autoincrement())
+  avatar_url String
+  name       String
+  role       String
+  email      String
+  phone      String
+  keywords   String[]
 }
 
-model Searchs{
-    id          Int     @id @default(autoincrement())
-    title       String 
-    snippet     String
-    link        String
-    keywords    String[]
+model Searchs {
+  id       Int      @id @default(autoincrement())
+  title    String
+  snippet  String
+  link     String
+  keywords String[]
 }

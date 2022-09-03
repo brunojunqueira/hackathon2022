@@ -2,5 +2,6 @@ requests
 google-search-results
 python-dotenv
 flask
+flask-cors
 prisma
 PyPDF2
