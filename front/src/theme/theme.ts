@@ -9,6 +9,7 @@ export const theme = extendTheme({
       "app-darkgray": "#AAAAAA",
       "app-brand-yellow": "#FFC600",
       "app-brand-green": "#008441",
+      "app-red": "#CF0A0A",
     },
   },
 })

@@ -19,7 +19,7 @@ export function ArticleOpinion({ searchData }: ArticleOpinionProps) {
         setIsFeedbackLoading(true);
 
         if (isArticleUseful) {
-            await api.post('/v1/googlesearch', searchData);
+            await api.post('/googlesearch', searchData);
         }
 
         setFeedbackIsSended(true);

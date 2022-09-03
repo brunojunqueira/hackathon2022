@@ -5,9 +5,9 @@ import { Link } from "react-feather";
 
 import { ArticleOpinion } from "./ArticleOpinion";
 
-type SearchResultBoxProps = SearchResultType & { searchText: string; }
+type SearchResultBoxProps = SearchResultType & { searchText: string; isGoogleSearch: boolean; }
 
-export function SearchResultBox({ link, title, snippet, searchText }: SearchResultBoxProps) {
+export function SearchResultBox({ link, title, snippet, searchText, isGoogleSearch }: SearchResultBoxProps) {
     const searchData = {
         link, 
         title, 
@@ -24,7 +24,9 @@ export function SearchResultBox({ link, title, snippet, searchText }: SearchResu
             
             <Text>{snippet}</Text>
 
-            <ArticleOpinion searchData={searchData} />
+            {isGoogleSearch && (
+                <ArticleOpinion searchData={searchData} />
+            )}
         </Flex>
     );
 }
