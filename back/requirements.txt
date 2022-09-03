@@ -3,3 +3,4 @@ google-search-results
 python-dotenv
 flask
 prisma
+PyPDF2
