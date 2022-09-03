@@ -2,6 +2,4 @@ requests
 google-search-results
 python-dotenv
 flask
-flask_sqlalchemy
-psycopg2-binary
 prisma

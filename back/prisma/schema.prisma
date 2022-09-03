@@ -1,10 +1,9 @@
 // database
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:password@localhost/flasksql"
+  url      = "postgresql://postgres:+Whales2022@localhost:5432/flasksql"
 }
 
-// generator
 generator client {
   provider = "prisma-client-py"
 }

@@ -14,7 +14,6 @@ prisma_service.init()
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
-app.secret_key = secret_key
 
 @app.get('/v1/googlesearch')
 def googlesearch_get():
