@@ -8,12 +8,17 @@ import { SearchResultBox } from "../../components/commons/SearchResultBox";
 import { ExpertInfo, ExpertProfileType } from "../../components/commons/ExpertInfo";
 
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { PDFResultBox } from "../../components/commons/PDFResultBox";
+import { JPGResultBox } from "../../components/commons/JPGResultBox";
 
 export type SearchResultType = {
     link: string;
     title?: string;
     snippet?: string
+    ocurrences?: string[];
 }
+
+export type ResultBoxType = SearchResultType & { searchText?: string; isGoogleSearch?: boolean}
 
 export function LandingSearch() {
     const [searchText, setSearchText] = useState('');
@@ -28,7 +33,6 @@ export function LandingSearch() {
         listening,
         resetTranscript
     } = useSpeechRecognition();
-
 
     useEffect(()=>{
         setSearchText(prevState => prevState + transcript.replaceAll('?','').replaceAll('!', ''));
@@ -167,15 +171,32 @@ export function LandingSearch() {
 
                 <Flex flexDirection="column" justifyContent="center" marginTop={10} rowGap={8}>     
                     {searchResults?.map((search, index) => (
-                        <SearchResultBox 
-                            key={index}
-                            title={search.title}
-                            link={search.link}
-                            snippet={search.snippet}
-                            searchText={searchText}
-                            isGoogleSearch={isGoogleSearch}
-                            
-                        />
+                        search.link.includes('.jpg') ? (
+                            <JPGResultBox 
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                            />
+                        ) : search.link.includes('.pdf') ? (
+                            <PDFResultBox
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                                snippet={search.snippet}
+                                ocurrences={search.ocurrences!}
+                                searchText={searchText}
+                                isGoogleSearch={isGoogleSearch}
+                            />
+                        ) : (
+                            <SearchResultBox 
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                                snippet={search.snippet}
+                                searchText={searchText}
+                                isGoogleSearch={isGoogleSearch}
+                            />
+                        )
                     ))}
                 </Flex>
 

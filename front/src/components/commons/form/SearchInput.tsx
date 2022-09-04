@@ -45,7 +45,7 @@ export function SearchInput({ isSearchLoading, isListening, onClickSearchButton,
 
             <Flex columnGap={3} color="app-brand-yellow">
                 <IconButton icon={<Search />} onClick={onClickSearchButton} />
-                <IconButton iconBackground={isListening ? 'app-brand-yellow' : '#FFFFFF'} icon={<Mic />} onClick={onClickMicrophoneButton} />
+                <IconButton icon={<Mic />} onClick={onClickMicrophoneButton} />
             </Flex>
         </Flex>
     );
