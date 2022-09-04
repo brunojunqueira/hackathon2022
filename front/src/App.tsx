@@ -15,7 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <ChakraProvider theme={theme}>
-        <Header />
+        <Header/>
         <Routes>
           <Route path="/" element={<LandingSearch />} />
         </Routes>

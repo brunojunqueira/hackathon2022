@@ -61,6 +61,7 @@ def dir_listing(req_path):
     # Joining the base and the requested path
     abs_path = os.path.join(BASE_DIR, req_path)
 
+    print(abs_path)
     # Return 404 if path doesn't exist
     if not os.path.exists(abs_path):
         return Response("NOT_FOUND: Nada encontrado no nosso sistema", status=404, mimetype='text/plain')
@@ -69,4 +70,4 @@ def dir_listing(req_path):
     if os.path.isfile(abs_path):
         return send_file(abs_path)
 
-app.run()
+app.run(host='0.0.0.0')

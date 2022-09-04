@@ -1,7 +1,5 @@
-from queue import Empty
 import PyPDF2
 import json
-import dotenv
 import os
 
 pdf_path = os.path.dirname(os.path.realpath(__file__)) +  "/../Public/resources/PDF"
@@ -27,7 +25,7 @@ def get_pdfpath(dict_key,pdf_path=pdf_path) -> str:
 
     for file in files:
         if dict_key == file[:file.find(".pdf")]:
-            path = "http://petroconnect.tofireplace.com:5000/v1/resources/PDF/" + file
+            path = "http://192.168.1.2:5000/resources/PDF/" + file
             return path
     
     return None
