@@ -5,3 +5,4 @@ flask
 flask-cors
 prisma
 PyPDF2
+waitress

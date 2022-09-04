@@ -6,9 +6,10 @@ interface SearchInputProps extends InputProps {
     onClickSearchButton: () => void;
     onClickMicrophoneButton: () => void;
     isSearchLoading: boolean;
+    isListening: boolean
 }
 
-export function SearchInput({ isSearchLoading, onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
+export function SearchInput({ isSearchLoading, isListening, onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
     return (
         <Flex
             alignItems="center"
@@ -44,7 +45,7 @@ export function SearchInput({ isSearchLoading, onClickSearchButton, onClickMicro
 
             <Flex columnGap={3} color="app-brand-yellow">
                 <IconButton icon={<Search />} onClick={onClickSearchButton} />
-                <IconButton icon={<Mic />} onClick={onClickMicrophoneButton} />
+                <IconButton iconBackground={isListening ? 'app-brand-yellow' : '#FFFFFF'} icon={<Mic />} onClick={onClickMicrophoneButton} />
             </Flex>
         </Flex>
     );

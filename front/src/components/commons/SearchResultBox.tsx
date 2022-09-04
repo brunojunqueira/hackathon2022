@@ -5,7 +5,7 @@ import { Link } from "react-feather";
 
 import { ArticleOpinion } from "./ArticleOpinion";
 
-type SearchResultBoxProps = SearchResultType & { searchText: string; isGoogleSearch: boolean; }
+type SearchResultBoxProps = SearchResultType & { searchText: string; isGoogleSearch: boolean}
 
 export function SearchResultBox({ link, title, snippet, searchText, isGoogleSearch }: SearchResultBoxProps) {
     const searchData = {

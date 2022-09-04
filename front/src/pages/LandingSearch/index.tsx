@@ -1,11 +1,13 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "../../services/api";
 
 import { SearchInput } from "../../components/commons/form/SearchInput";
 import { SearchResultBox } from "../../components/commons/SearchResultBox";
 import { ExpertInfo, ExpertProfileType } from "../../components/commons/ExpertInfo";
+
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 export type SearchResultType = {
     link: string;
@@ -21,8 +23,27 @@ export function LandingSearch() {
     const [expertResults, setExpertResults] = useState<ExpertProfileType[]>([]);
     const [externalResultsChosen, setExternalResultsChosen] = useState(false);
 
+    const {
+        transcript,
+        listening,
+        resetTranscript
+    } = useSpeechRecognition();
+
+
+    useEffect(()=>{
+        setSearchText(prevState => prevState + transcript.replaceAll('?','').replaceAll('!', ''));
+    }, [transcript])
+
     function handleVoiceRecognition() {
-        console.log('Reconhecimento de voz.')
+        if(!listening){
+            SpeechRecognition.startListening({
+                continuous: true,
+                language: 'pt-br'
+            })
+            setSearchText('');
+        } else {
+            handleSearch();
+        }
     }
 
     async function getInternalData(uniqueSearch?: boolean) {
@@ -94,6 +115,10 @@ export function LandingSearch() {
     }
 
     async function handleSearch() {
+
+        SpeechRecognition.stopListening();
+        resetTranscript();
+
         try {
             if (!searchText) {
                 return;
@@ -124,6 +149,7 @@ export function LandingSearch() {
                     onKeyDown={(event) => event.key === "Enter" && handleSearch()}
                     onChange={(event) => setSearchText(event.target.value)}
                     isSearchLoading={isSearchLoading}
+                    isListening={listening}
                 />
             </Flex>
 
@@ -148,6 +174,7 @@ export function LandingSearch() {
                             snippet={search.snippet}
                             searchText={searchText}
                             isGoogleSearch={isGoogleSearch}
+                            
                         />
                     ))}
                 </Flex>
