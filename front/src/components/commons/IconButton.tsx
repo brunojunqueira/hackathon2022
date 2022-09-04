@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 
 import { Button, ButtonProps } from "@chakra-ui/react";
 
+import { motion } from "framer-motion";
+
 interface SearchButtonProps extends ButtonProps {
     icon: ReactNode;
     iconColor?: string;
@@ -11,7 +13,9 @@ interface SearchButtonProps extends ButtonProps {
 export function IconButton({ icon, iconColor, iconColorOnHover, ...rest }: SearchButtonProps) {
     return (
         <Button
+            as={motion.button}
             color={iconColor ?? 'app-brand-yellow'}
+            backgroundColor="#FFFFFF"
             borderRadius="50%"
             width={50}
             height={50}
@@ -23,6 +27,7 @@ export function IconButton({ icon, iconColor, iconColorOnHover, ...rest }: Searc
             _active={{
                 color: "white"
             }}
+            
             {...rest}
         >
             {icon}

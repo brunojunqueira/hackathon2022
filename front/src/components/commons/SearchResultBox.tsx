@@ -1,13 +1,11 @@
-import { SearchResultType } from "../../pages/LandingSearch";
+import { ResultBoxType } from "../../pages/LandingSearch";
 
 import { Flex, Heading, Text } from "@chakra-ui/react";
 import { Link } from "react-feather";
 
 import { ArticleOpinion } from "./ArticleOpinion";
 
-type SearchResultBoxProps = SearchResultType & { searchText: string; isGoogleSearch: boolean; }
-
-export function SearchResultBox({ link, title, snippet, searchText, isGoogleSearch }: SearchResultBoxProps) {
+export function SearchResultBox({ link, title, snippet, searchText, isGoogleSearch }: ResultBoxType) {
     const searchData = {
         link, 
         title, 

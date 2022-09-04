@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { api } from "../../services/api";
 
@@ -7,11 +7,18 @@ import { SearchInput } from "../../components/commons/form/SearchInput";
 import { SearchResultBox } from "../../components/commons/SearchResultBox";
 import { ExpertInfo, ExpertProfileType } from "../../components/commons/ExpertInfo";
 
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import { PDFResultBox } from "../../components/commons/PDFResultBox";
+import { JPGResultBox } from "../../components/commons/JPGResultBox";
+
 export type SearchResultType = {
     link: string;
     title?: string;
     snippet?: string
+    ocurrences?: string[];
 }
+
+export type ResultBoxType = SearchResultType & { searchText?: string; isGoogleSearch?: boolean}
 
 export function LandingSearch() {
     const [searchText, setSearchText] = useState('');
@@ -21,8 +28,26 @@ export function LandingSearch() {
     const [expertResults, setExpertResults] = useState<ExpertProfileType[]>([]);
     const [externalResultsChosen, setExternalResultsChosen] = useState(false);
 
+    const {
+        transcript,
+        listening,
+        resetTranscript
+    } = useSpeechRecognition();
+
+    useEffect(()=>{
+        setSearchText(prevState => prevState + transcript.replaceAll('?','').replaceAll('!', ''));
+    }, [transcript])
+
     function handleVoiceRecognition() {
-        console.log('Reconhecimento de voz.')
+        if(!listening){
+            SpeechRecognition.startListening({
+                continuous: true,
+                language: 'pt-br'
+            })
+            setSearchText('');
+        } else {
+            handleSearch();
+        }
     }
 
     async function getInternalData(uniqueSearch?: boolean) {
@@ -94,6 +119,10 @@ export function LandingSearch() {
     }
 
     async function handleSearch() {
+
+        SpeechRecognition.stopListening();
+        resetTranscript();
+
         try {
             if (!searchText) {
                 return;
@@ -124,6 +153,7 @@ export function LandingSearch() {
                     onKeyDown={(event) => event.key === "Enter" && handleSearch()}
                     onChange={(event) => setSearchText(event.target.value)}
                     isSearchLoading={isSearchLoading}
+                    isListening={listening}
                 />
             </Flex>
 
@@ -141,14 +171,32 @@ export function LandingSearch() {
 
                 <Flex flexDirection="column" justifyContent="center" marginTop={10} rowGap={8}>     
                     {searchResults?.map((search, index) => (
-                        <SearchResultBox 
-                            key={index}
-                            title={search.title}
-                            link={search.link}
-                            snippet={search.snippet}
-                            searchText={searchText}
-                            isGoogleSearch={isGoogleSearch}
-                        />
+                        search.link.includes('.jpg') ? (
+                            <JPGResultBox 
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                            />
+                        ) : search.link.includes('.pdf') ? (
+                            <PDFResultBox
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                                snippet={search.snippet}
+                                ocurrences={search.ocurrences!}
+                                searchText={searchText}
+                                isGoogleSearch={isGoogleSearch}
+                            />
+                        ) : (
+                            <SearchResultBox 
+                                key={index}
+                                title={search.title}
+                                link={search.link}
+                                snippet={search.snippet}
+                                searchText={searchText}
+                                isGoogleSearch={isGoogleSearch}
+                            />
+                        )
                     ))}
                 </Flex>
 

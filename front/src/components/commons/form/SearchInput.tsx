@@ -6,9 +6,10 @@ interface SearchInputProps extends InputProps {
     onClickSearchButton: () => void;
     onClickMicrophoneButton: () => void;
     isSearchLoading: boolean;
+    isListening: boolean
 }
 
-export function SearchInput({ isSearchLoading, onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
+export function SearchInput({ isSearchLoading, isListening, onClickSearchButton, onClickMicrophoneButton, ...rest }: SearchInputProps) {
     return (
         <Flex
             alignItems="center"
