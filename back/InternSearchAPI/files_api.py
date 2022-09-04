@@ -111,7 +111,7 @@ def get_all_data(key_word,pdf_path=pdf_path) -> list:
         temp_dict = dict(title = key,keywords = key_word,link = file_path,ocurrences=page_number)
         output_dicts.append(temp_dict)
 
-    return json.dumps(output_dicts)    
+    return output_dicts
    
 #Searchs a keyword in json_file
 def search_keyword(key_word,json_path=json_path) -> dict:
