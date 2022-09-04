@@ -1,3 +1,4 @@
+from queue import Empty
 import PyPDF2
 import json
 import dotenv
@@ -26,7 +27,7 @@ def get_pdfpath(dict_key,pdf_path=pdf_path) -> str:
 
     for file in files:
         if dict_key == file[:file.find(".pdf")]:
-            path = pdf_path + "//" + file
+            path = "http://petroconnect.tofireplace.com:5000/v1/resources/PDF/" + file
             return path
     
     return None
@@ -61,12 +62,59 @@ def load_pdf(file_name, pdf_path=pdf_path) -> dict:
         dicts[key_name][page_number] = str(pdfreader.pages[page].extract_text())    
     return dicts  
 
+#Pick-up the first ocurrence of the key word in a pdf page
+def get_snippet(main_dict_key, page_key,key_word) -> str:
+    def get_start_index(page_string,key_word_index) -> int:
+        break_occurrences = []
+        iterations = 0
 
-def search_and_getpdf(key_word,pdf_path=pdf_path) -> list:
-    pages_matched = search_keyword(key_word)
-    pdf_paths = {}
-    pass
+        while True:
+            break_occurrences.append(page_string.find("\n"))
+            if break_occurrences[len(break_occurrences)-1] > key_word_index and iterations == 0:
+                return key_word_index
+            elif iterations >= len(page_string):
+                return key_word_index
+            elif break_occurrences[len(break_occurrences)] > key_word_index:
+                return break_occurrences[len(break_occurrences)-1]
+
+            iterations += 1
+
+        
+    def get_end_index() -> int:
+        pass
+
+    #Load Json with all pages
+    all_dicts = load_json() 
+    #print(all_dicts[main_dict_key][page_key])
+
+    page_string = all_dicts[main_dict_key][page_key]
+    index = page_string.find(key_word)         
+        
+    snippet = page_string[get_start_index(page_string,index):]
+    print(snippet)
+
+
+#Return formated data to front-end
+def get_all_data(key_word,pdf_path=pdf_path) -> list:
+    def key_to_str(key):
+        return str(key)[str(key).find(" ")+1:]
     
+    output_dicts = []
+    files_matched = search_keyword(key_word)
+
+    if not bool(files_matched):return None
+    print(files_matched.keys())
+    for key in files_matched.keys():        
+        file_path = get_pdfpath(key)
+        print(f"Key: {files_matched[key][0]}")
+        #get_snippet(key,files_matched[key][0],key_word)       
+        
+        page_number = list(map(key_to_str, files_matched[key]))        
+        temp_dict = dict(title = key,keywords = key_word,link = file_path,ocurrences=page_number)
+        output_dicts.append(temp_dict)
+
+    return json.dumps(output_dicts)    
+   
 #Searchs a keyword in json_file
 def search_keyword(key_word,json_path=json_path) -> dict:
     
@@ -86,6 +134,7 @@ def search_keyword(key_word,json_path=json_path) -> dict:
            
     return pages_match
 
+#Lite loader for more than one pdf file
 def load_manypdf(pdf_path=pdf_path):
     files = os.listdir(pdf_path)
     pdf_files = []
@@ -107,6 +156,6 @@ def load_manypdf(pdf_path=pdf_path):
     if  len(not_duplicated_files) > 0:
         for file in not_duplicated_files:            
             save_json(load_pdf(file))                
-
     
 load_manypdf()
+print(get_all_data("ssl"))
