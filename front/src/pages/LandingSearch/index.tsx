@@ -29,7 +29,6 @@ export function LandingSearch() {
         resetTranscript
     } = useSpeechRecognition();
 
-
     useEffect(()=>{
         setSearchText(prevState => prevState + transcript.replaceAll('?','').replaceAll('!', ''));
     }, [transcript])
@@ -40,7 +39,7 @@ export function LandingSearch() {
                 continuous: true,
                 language: 'pt-br'
             })
-            setSearchText('');
+            setSearchText(transcript);
         } else {
             handleSearch();
         }
