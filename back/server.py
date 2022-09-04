@@ -5,7 +5,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 from GoogleSearchAPI import search_api
-from InternSearchAPI import intern_api
+from InternSearchAPI import intern_api, files_api
 from UserSearchAPI import user_api
 
 load_dotenv()
@@ -37,9 +37,15 @@ def internsearch():
     search_text = query_parameters.get('search')
     if len(search_text) == 0 or search_text == None:
         return Response("BAD_REQUEST: Check Information And Try Again", status=400, mimetype='text/plain')
-    result = intern_api.search(search_text)
-    if result == None or len(result) == 0:
+    file_result = files_api.get_all_data(search_text)
+    intern_result = intern_api.search(search_text)
+    if intern_result == [] and file_result != None:
+        return file_result
+    elif intern_result != [] and file_result == None:
+        return intern_result
+    elif intern_result == [] and file_result == None:
         return Response("NOT_FOUND: Nada encontrado no nosso sistema", status=404, mimetype='text/plain')
+    result = file_result + intern_result
     return result
 
 @app.get('/v1/usersearch')
