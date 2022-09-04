@@ -157,6 +157,8 @@ export function LandingSearch() {
                 />
             </Flex>
 
+            
+
             <Flex
                 width={{ base: "90%", md: "60%" }}
                 color="app-lightblack"
@@ -169,7 +171,7 @@ export function LandingSearch() {
                     )}
                 </Flex>
 
-                <Flex flexDirection="column" justifyContent="center" marginTop={10} rowGap={8}>     
+                <Flex flexDirection="column" justifyContent="center" marginTop={10} rowGap={8}>   
                     {searchResults?.map((search, index) => (
                         search.link.includes('.jpg') ? (
                             <JPGResultBox 
