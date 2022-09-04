@@ -17,7 +17,7 @@ def load_json(json_path=json_path) -> dict:
             with open(json_path,"w",encoding="utf-8")as json_file:
                 json.dump({},json_file,indent=4)
 
-    print("Verify your json file")
+    #print("Verify your json file")
 
 #Return the pdf path
 def get_pdfpath(dict_key,pdf_path=pdf_path) -> str:
@@ -89,7 +89,7 @@ def get_snippet(main_dict_key, page_key,key_word) -> str:
     index = page_string.find(key_word)         
         
     snippet = page_string[get_start_index(page_string,index):]
-    print(snippet)
+    #print(snippet)
 
 
 #Return formated data to front-end
@@ -104,7 +104,7 @@ def get_all_data(key_word,pdf_path=pdf_path) -> list:
     print(files_matched.keys())
     for key in files_matched.keys():        
         file_path = get_pdfpath(key)
-        print(f"Key: {files_matched[key][0]}")
+        #print(f"Key: {files_matched[key][0]}")
         #get_snippet(key,files_matched[key][0],key_word)       
         
         page_number = list(map(key_to_str, files_matched[key]))        
@@ -156,4 +156,3 @@ def load_manypdf(pdf_path=pdf_path):
             save_json(load_pdf(file))                
     
 load_manypdf()
-print(get_all_data("ssl"))
