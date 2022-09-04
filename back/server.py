@@ -69,4 +69,4 @@ def dir_listing(req_path):
     if os.path.isfile(abs_path):
         return send_file(abs_path)
 
-app.run(host='0.0.0.0', port=5000, debug=True)
+app.run()

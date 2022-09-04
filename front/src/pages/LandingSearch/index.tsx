@@ -35,7 +35,7 @@ export function LandingSearch() {
     } = useSpeechRecognition();
 
     useEffect(()=>{
-        setSearchText(prevState => prevState + transcript.replaceAll('?','').replaceAll('!', ''));
+        setSearchText(transcript.replaceAll('?',''));
     }, [transcript])
 
     function handleVoiceRecognition() {
